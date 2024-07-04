@@ -6,6 +6,12 @@ import React, { useState } from 'react'
 const page = () => {
   const router = useRouter()
   const [roomid, setRoomid] = useState('')
+  const accessToken = localStorage.getItem('user')
+
+      if (!accessToken) {
+        router.push('/auth/signup')
+        return null
+      }
 
   const joinRoom = () => {
     router.push(`/room/${roomid || Math.random().toString(36).slice(2)}`)
