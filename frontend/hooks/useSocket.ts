@@ -17,7 +17,7 @@ const useSocket=(url:string)=>{
                 console.log(error);
             }
         }
-    },[])
+    },[url])
 
     return socket.current;
 }
