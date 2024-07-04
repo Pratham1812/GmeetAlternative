@@ -1,7 +1,7 @@
 import { useEffect,useRef } from "react";
 import {io,Socket} from 'socket.io-client';
 
-const useSocket=(url:string)=>{
+const useSocket=(url:string):Socket|null=>{
     const socketCreated=useRef(false);
     const socket=useRef<Socket|null>(null);
 
