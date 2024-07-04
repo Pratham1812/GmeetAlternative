@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import useSocket from '../../../hooks/useSocket';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import handleRoomCreated from '@/utils/handleRoomCreated';
 import handleRoomJoined from '@/utils/handleRoomJoined';
 import initiateCall from '@/utils/initiateCall';
@@ -11,6 +11,7 @@ import handleReceivedOffer from '@/utils/handleReceivedOffer';
 import handleAnswer from '@/utils/handleAnswer';
 import handlerNewIceCandidateMsg from '@/utils/handlerNewIceCandidateMsg';
 import leaveRoom from '@/utils/leaveRoom';
+
 
 const Room = ({ roomName }: { roomName: string }) => {
   const url: string = process.env.NEXT_PUBLIC_SIGNALING_SERVER_URL as string;
@@ -49,3 +50,4 @@ const Room = ({ roomName }: { roomName: string }) => {
     </div>
   );
 }
+export default Room;
