@@ -5,13 +5,18 @@ class SignalingServer{
     private io: Server;
 
     constructor(server: http.Server){
-        this.io =new Server(server);
+        this.io =new Server(server,{
+            cors: {
+                origin: "http://localhost:3000",
+                credentials: true,
+            },
+        });
         this.initializeSocketEvents();
     }
 
     private initializeSocketEvents(){
         this.io.on('connection',(socket:Socket)=>{
-            console.log("A user connected");
+            console.log("A user connected", socket.id);
         
             socket.on('join',(roomName)=>{
                 const {rooms}=this.io.sockets.adapter;

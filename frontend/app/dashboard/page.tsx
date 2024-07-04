@@ -2,8 +2,10 @@
 import Navbar from '@/components/Navbar'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
+import { io } from 'socket.io-client'
 
 const page = () => {
+  const socket = io("http://localhost:4000")
   const router = useRouter()
   const [roomid, setRoomid] = useState('')
   const accessToken = localStorage.getItem('user')
