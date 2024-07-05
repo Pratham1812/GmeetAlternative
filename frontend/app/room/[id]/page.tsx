@@ -16,6 +16,7 @@ import handleICECandidateEvent from '@/utils/handleIceCandidateEvent';
 import handleTrackEvent from '@/utils/handleTrackEvent';
 import toggleMic from '@/utils/toggleMic';
 import toggleCamera from '@/utils/toggleCamera';
+import handleScreenShare from '@/utils/handleScreenShare';
 
 
 const Room = ({ roomName }: { roomName: string }) => {
@@ -28,6 +29,7 @@ const Room = ({ roomName }: { roomName: string }) => {
   const router = useRouter();
   const userVideoRef = useRef<HTMLVideoElement | null>(null);
   const peerVideoRef = useRef<HTMLVideoElement | null>(null);
+  const screenShareRef = useRef<HTMLVideoElement>(null);
   const rtcConnectionRef = useRef<RTCPeerConnection | null>(null);
   const userStreamRef = useRef<MediaStream | null>(null);
   const hostRef = useRef<boolean>(false);
@@ -65,8 +67,12 @@ const Room = ({ roomName }: { roomName: string }) => {
 
   return (
     <div>
+      <div className='flex gap-5 flex-wrap m-4'>
+      <video autoPlay ref={screenShareRef} style={{ display: 'none' }} />
+
       <video autoPlay ref={userVideoRef} />
       <video autoPlay ref={peerVideoRef} />
+      </div>
       <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={() => toggleMic(micActive, setMicActive, userStreamRef)} type="button">
         {micActive ? 'Mute Mic' : 'UnMute Mic'}
       </button>
@@ -75,6 +81,9 @@ const Room = ({ roomName }: { roomName: string }) => {
       </button>
       <button className='mx-4 bg-red-400 text-black rounded-lg p-3' onClick={() => toggleCamera(cameraActive, setCameraActive, userStreamRef)} type="button">
         {cameraActive ? 'Stop Camera' : 'Start Camera'}
+      </button>
+      <button className='mx-4 bg-red-400 text-black rounded-lg p-3' onClick={() => handleScreenShare(rtcConnectionRef, userStreamRef, socket, roomName, screenShareRef)} type="button">
+        Share Screen
       </button>
     </div>
   );
