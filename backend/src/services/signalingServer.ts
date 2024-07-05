@@ -21,30 +21,36 @@ class SignalingServer{
             socket.on('join',(roomName)=>{
                 const {rooms}=this.io.sockets.adapter;
                 const room=rooms.get(roomName);
-        
+                console.log("A user joined", roomName);
                 if(room==undefined){
                     socket.join(roomName);
+                    console.log("creating a room",roomName);
                     socket.emit('created');
                 }else{
                     socket.join(roomName);
+                    console.log("joining a room",roomName)
                     socket.emit('joined');
                 }
             })
         
             socket.on('ready',(roomName)=>{
+                console.log("emiting ready",roomName);
                 socket.broadcast.to(roomName).emit("ready");
             })
         
             socket.on('offer',(offer,roomName)=>{
+                console.log("emiting offer",offer,roomName);
                 socket.broadcast.to(roomName).emit("offer",offer);
             })
         
             socket.on('answer',(answer,roomName)=>{
+                console.log("emiting ready",answer,roomName);
                 socket.broadcast.to(roomName).emit("answer",answer);
             })
         
             socket.on('leave',(roomName)=>{
                 socket.leave(roomName);
+                console.log("leaving",roomName);
                 socket.broadcast.to(roomName).emit("leave");
             })
         
