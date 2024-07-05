@@ -66,7 +66,7 @@ const SignUp = () => {
                     onChange={(e) => setInputs({...inputs , confirmPassword: e.target.value})} />
                 </div>
                 <Link href="/auth/signin" className="text-sm hover:underline hover:text-blue-500 ">
-                "Already have an account?"
+                Already have an account?
                 </Link>
 
                 <div className="mt-6">
