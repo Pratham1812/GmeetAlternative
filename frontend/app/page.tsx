@@ -1,9 +1,10 @@
+import Page from "./dashboard/page";
 
 export default function Home() {
   return (
     <>
     <div>
-      This is the homepage
+    <Page/>
     </div>
     </>
   );
