@@ -14,28 +14,21 @@ const PORT = process.env.PORT || 3000
 const server=http.createServer(app);
 const signalingServer= new SignalingServer(server);
 
+// Middlewares
 app.use(
     cors({
         origin: "http://localhost:3000",
         optionsSuccessStatus: 200, 
-        // Some legacy browsers choke on 204
     })
-);
-app.use(express.json());
+)
+app.use(express.json()) 
+app.use(cookieParser()) 
 app.use(express.urlencoded({extended:true}));
+// app.use("/api/auth", authRoutes)
 
 app.get('/',(req,res) => {
-    res.send("Hello World!!")
+    res.send("Hello World")
 })
-
-
-// Middlewares
-app.use(express.json()) // to extract the fields from req.body
-app.use(cookieParser()) // to extract the cookie from req.cookies
-
-app.use("/api/auth", authRoutes)
-
-
 
 server.listen(PORT, () => {
     connectToDB();
