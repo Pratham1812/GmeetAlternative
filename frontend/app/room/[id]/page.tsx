@@ -36,7 +36,7 @@ const Room = ({ roomName }: { roomName: string }) => {
   useEffect(() => {
     if (socket != null) {
       socket.emit('join', roomName);
-      socket.on("created", () => handleRoomCreated(userStreamRef, userVideoRef, hostRef));
+      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef));
       socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName));
       socket.on("ready", () => initiateCall(hostRef, rtcConnectionRef, userStreamRef, socket, roomName, () =>
         createPeerConnection(
