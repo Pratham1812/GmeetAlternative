@@ -24,7 +24,6 @@ const Room = ({ roomName }: { roomName: string }) => {
   const [cameraActive, setCameraActive] = useState(true);
 
   const url: string = process.env.NEXT_PUBLIC_SIGNALING_SERVER_URL as string
-  console.log(url);
   const socket = useSocket(url);
   const router = useRouter();
   const userVideoRef = useRef<HTMLVideoElement | null>(null);
