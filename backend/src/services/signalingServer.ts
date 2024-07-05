@@ -5,10 +5,10 @@ class SignalingServer{
     private io: Server;
 
     constructor(server: http.Server){
-        this.io =new Server(server,{
+        this.io =require("socket.io")(server,{
             cors: {
                 origin: "http://localhost:3000",
-                credentials: true,
+                methods: ["GET","POST"]
             },
         });
         this.initializeSocketEvents();
