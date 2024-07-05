@@ -1,3 +1,4 @@
+import { MutableRefObject } from 'react';
 
 const handleRoomCreated=(
     hostRef:React.MutableRefObject<boolean>,
