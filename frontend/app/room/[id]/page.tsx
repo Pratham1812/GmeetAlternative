@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from 'react';
 import useSocket from '../../../hooks/useSocket';
-import {useSearchParams } from 'next/navigation';
+import {useRouter, useSearchParams } from 'next/navigation';
 import handleRoomCreated from '@/utils/handleRoomCreated';
 import handleRoomJoined from '@/utils/handleRoomJoined';
 import initiateCall from '@/utils/initiateCall';
@@ -23,6 +23,7 @@ const Room = () => {
   const [cameraActive, setCameraActive] = useState(true);
   const url: string = process.env.NEXT_PUBLIC_SIGNALING_SERVER_URL as string
   const socket = useSocket(url);
+  const router=useRouter();
   const param = useSearchParams();
   const userVideoRef = useRef<HTMLVideoElement | null>(null);
   const peerVideoRef = useRef<HTMLVideoElement | null>(null);
