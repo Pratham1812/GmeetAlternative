@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 
-const page = () => {
+const Page = () => {
 
   const router = useRouter()
   const [roomid, setRoomid] = useState('')
@@ -34,4 +34,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
