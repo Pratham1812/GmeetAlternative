@@ -31,12 +31,12 @@ const Room = ({ roomName }: { roomName: string }) => {
   const peerVideoRef = useRef<HTMLVideoElement | null>(null);
   const rtcConnectionRef = useRef<RTCPeerConnection | null>(null);
   const userStreamRef = useRef<MediaStream | null>(null);
-  const hostRef = useRef(false);
+  const hostRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (socket != null) {
       socket.emit('join', roomName);
-      socket.on("created", () => handleRoomCreated(userStreamRef, userVideoRef, hostRef));
+      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef));
       socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName));
       socket.on("ready", () => initiateCall(hostRef, rtcConnectionRef, userStreamRef, socket, roomName, () =>
         createPeerConnection(

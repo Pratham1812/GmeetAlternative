@@ -1,30 +1,28 @@
-import { MutableRefObject } from 'react';
-import { Socket } from 'socket.io-client';
-
-const handleRoomJoined = (
-  userStreamRef: MutableRefObject<MediaStream | null>,
-  userVideoRef: MutableRefObject<HTMLVideoElement | null>,
-  socketRef: Socket,
-  roomName: string
-) => {
-  navigator.mediaDevices
-    .getUserMedia({
-      audio: true,
-      video: { width: 500, height: 500 },
+import { Socket } from "socket.io-client";
+const handleRoomJoined=(
+    userStreamRef:React.MutableRefObject<MediaStream|null>,
+    userVideoRef:React.RefObject<HTMLVideoElement|null>,
+    socket:Socket,
+    roomName:string,
+)=>{
+    navigator.mediaDevices.getUserMedia({
+        audio:true,
+        video:{
+            width:500,height:500
+        },
+    }).then((stream)=>{
+        userStreamRef.current=stream;
+        if(userVideoRef.current!=null){
+            userVideoRef.current.srcObject=stream;
+            userVideoRef.current.onloadedmetadata=()=>{
+                userVideoRef.current?.play();
+            };
+            socket.emit('ready',roomName);
+        }else{
+            console.log("Failed to fetch video stream");
+        }
+    }).catch((error)=>{
+        console.log(error);
     })
-    .then((stream) => {
-      userStreamRef.current = stream;
-      if (userVideoRef.current) {
-        userVideoRef.current.srcObject = stream;
-        userVideoRef.current.onloadedmetadata = () => {
-          userVideoRef.current?.play();
-        };
-      }
-      socketRef.emit('ready', roomName);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-};
-
+}
 export default handleRoomJoined;

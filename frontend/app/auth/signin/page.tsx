@@ -52,8 +52,8 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}/>
 
                 </div>
-                <Link href="/auth/signup" className="text-sm hover:underline hover:text-blue-500 ">
-                "Don't have an account yet?"
+                <Link href="/auth/signup" className="text-sm hover:underline hover:text-blue-500">
+                        Don&apos;t have an account yet?
                 </Link>
 
                 <div className="mt-6">
