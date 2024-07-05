@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 const Page = () => {
 
   const router = useRouter()
-  const [roomid, setRoomid] = useState('')
+  const [roomName, setRoomName] = useState('')
   const accessToken = localStorage.getItem('user')
 
       if (!accessToken) {
@@ -16,7 +16,8 @@ const Page = () => {
       }
 
   const joinRoom = () => {
-    router.push(`/room/${roomid || Math.random().toString(36).slice(2)}`)
+    const targetRoomName=roomName || Math.random().toString(36).slice(2);
+    router.push(`/room/${targetRoomName}?roomName=${targetRoomName}`);
   }
 
   return (
@@ -26,7 +27,7 @@ const Page = () => {
 
       <main className="flex flex-col gap-4 justify-center w-screen items-center ">
        <h1>Lets join a room!</h1>
-       <input onChange={(e) => setRoomid(e.target.value)} value={roomid} className="w-96 border rounded-md" />
+       <input onChange={(e) => setRoomName(e.target.value)} value={roomName} className="w-96 border rounded-md" />
        <button onClick={joinRoom} type="button" className="p-3 text-black rounded-md bg-slate-400">Join Room</button>
       </main>
     </div>
