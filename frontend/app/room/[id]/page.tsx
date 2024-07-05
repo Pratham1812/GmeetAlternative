@@ -1,8 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from 'react';
-import { io } from 'socket.io-client';
 import useSocket from '../../../hooks/useSocket';
-import { useRouter } from 'next/navigation';
+import {useSearchParams } from 'next/navigation';
 import handleRoomCreated from '@/utils/handleRoomCreated';
 import handleRoomJoined from '@/utils/handleRoomJoined';
 import initiateCall from '@/utils/initiateCall';
@@ -18,19 +17,19 @@ import toggleMic from '@/utils/toggleMic';
 import toggleCamera from '@/utils/toggleCamera';
 
 
-const Room = ({ roomName }: { roomName: string }) => {
-
+const Room = () => {
   const [micActive, setMicActive] = useState(true);
   const [cameraActive, setCameraActive] = useState(true);
-
   const url: string = process.env.NEXT_PUBLIC_SIGNALING_SERVER_URL as string
   const socket = useSocket(url);
-  const router = useRouter();
+  const param = useSearchParams();
   const userVideoRef = useRef<HTMLVideoElement | null>(null);
   const peerVideoRef = useRef<HTMLVideoElement | null>(null);
   const rtcConnectionRef = useRef<RTCPeerConnection | null>(null);
   const userStreamRef = useRef<MediaStream | null>(null);
   const hostRef = useRef<boolean>(false);
+  const roomNameParam:string|null=param.get('roomName');
+  const roomName:string=roomNameParam?roomNameParam:"";
 
   useEffect(() => {
     if (socket != null) {
@@ -75,6 +74,9 @@ const Room = ({ roomName }: { roomName: string }) => {
       </button>
       <button className='mx-4 bg-red-400 text-black rounded-lg p-3' onClick={() => toggleCamera(cameraActive, setCameraActive, userStreamRef)} type="button">
         {cameraActive ? 'Stop Camera' : 'Start Camera'}
+      </button>
+      <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={() => {}} type="button">
+        Share Screen
       </button>
     </div>
   );
