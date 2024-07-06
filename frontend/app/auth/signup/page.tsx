@@ -2,8 +2,11 @@
 import { useState } from "react"
 import useSignUp from "@/hooks/useSignup";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
+
 
 const SignUp = () => {
+    const router = useRouter()
 
     const [inputs, setInputs] = useState({
         fullName: '',
@@ -11,7 +14,7 @@ const SignUp = () => {
         password: '',
         confirmPassword: '',
     })
-    const {loading , signup} = useSignUp();
+    const {loading , signup, signedUp} = useSignUp();
     
     
 
@@ -19,6 +22,9 @@ const SignUp = () => {
         e.preventDefault()
         
         await signup(inputs)  //this is from useSignUp hook
+    }
+    if(signedUp){
+        router.push('/dashboard')
     }
 
   return (

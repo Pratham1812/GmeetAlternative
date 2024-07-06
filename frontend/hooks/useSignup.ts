@@ -11,6 +11,7 @@ interface Inputs{
 
 const useSignUp = () => {
     
+    const [signedUp, setSignedUp] = useState(false)
  
     const [loading, setLoading] = useState(false);
 
@@ -45,7 +46,7 @@ const useSignUp = () => {
             localStorage.setItem("user", JSON.stringify(data));
             
             toast.success("Account created successfully");
-            
+            setSignedUp(true)
 
 
             
@@ -55,7 +56,7 @@ const useSignUp = () => {
             setLoading(false);
         }
     }
-    return { signup, loading };
+    return { signup, loading, signedUp };
 }
 
 export default useSignUp
