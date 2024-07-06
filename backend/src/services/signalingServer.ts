@@ -37,14 +37,19 @@ class SignalingServer{
                 console.log("emiting ready",roomName);
                 socket.broadcast.to(roomName).emit("ready");
             })
-        
+            
+            socket.on("ice-candidate",(candidate:RTCIceCandidate,roomName:string)=>{
+                console.log(candidate);
+                socket.broadcast.to(roomName).emit("ice-candidate",candidate);
+            })
+
             socket.on('offer',(offer,roomName)=>{
                 console.log("emiting offer",offer,roomName);
                 socket.broadcast.to(roomName).emit("offer",offer);
             })
         
             socket.on('answer',(answer,roomName)=>{
-                console.log("emiting ready",answer,roomName);
+                console.log("emiting answer",answer,roomName);
                 socket.broadcast.to(roomName).emit("answer",answer);
             })
         
