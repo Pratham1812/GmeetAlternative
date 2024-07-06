@@ -52,7 +52,7 @@ const Room = () => {
           (event) => handleTrackEvent(event, peerVideoRef)
         )
       ));
-      socket.on('answer', handleAnswer);
+      socket.on('answer', (answer)=>handleAnswer(answer,rtcConnectionRef));
       socket.on('ice-candidate', (incoming) => handlerNewIceCandidateMsg(incoming, rtcConnectionRef));
 
       return () => {
