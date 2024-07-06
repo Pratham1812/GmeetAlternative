@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
         <div className="rounded-lg w-full p-6 shadow-md bg-gray-800 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
-            <h1 className="text-3xl font-semibold text-center text-gray-300">
+            <h1 className="text-3xl font-semibold text-center text-gray-800">
                 Login
                 <span className="text-blue-500"> GMeet</span>
             </h1>
@@ -36,7 +36,7 @@ const Login = () => {
                     </label>
                     <input type="text"
                      placeholder="Enter your username"
-                      className="w-full text-black input input-bordered h-10"
+                      className="w-full text-black border p-2 rounded-md input input-bordered h-10"
                       value= {username}
                       onChange={(e) => {setUsername(e.target.value)}} />
                 </div>
@@ -47,13 +47,13 @@ const Login = () => {
                     </label>
                     <input type="password" 
                     placeholder="Enter your passsword" 
-                    className="w-full text-black input input-bordered h-10"
+                    className="w-full text-black input border p-2 rounded-md input-bordered h-10"
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)}/>
 
                 </div>
-                <Link href="/auth/signup" className="text-sm hover:underline hover:text-blue-500 ">
-                "Don't have an account yet?"
+                <Link href="/auth/signup" className="text-sm hover:underline hover:text-blue-500">
+                        Don&apos;t have an account yet?
                 </Link>
 
                 <div className="mt-6">
