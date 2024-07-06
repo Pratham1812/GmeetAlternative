@@ -8,6 +8,7 @@ const handleICECandidateEvent = (
 ) => {
   if (event.candidate) {
     socketRef.emit('ice-candidate', event.candidate, roomName);
+    console.log("emitting icecandidate event",event.candidate,roomName);
   }
 };
 

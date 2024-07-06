@@ -12,6 +12,7 @@ const handleReceivedOffer = (
 ) => {
   if (!hostRef.current) {
     rtcConnectionRef.current = createPeerConnection();
+    console.log(rtcConnectionRef.current);
     userStreamRef.current?.getTracks().forEach((track) => {
       rtcConnectionRef.current?.addTrack(track, userStreamRef.current as MediaStream);
     });
@@ -22,7 +23,9 @@ const handleReceivedOffer = (
       ?.createAnswer()
       .then((answer) => {
         rtcConnectionRef.current?.setLocalDescription(answer);
-        socketRef.current.emit('answer', answer, roomName);
+        console.log(rtcConnectionRef.current);
+        console.log("emitting answer",answer,roomName);
+        socketRef.emit('answer', answer, roomName);
       })
       .catch((error) => {
         console.error(error);
