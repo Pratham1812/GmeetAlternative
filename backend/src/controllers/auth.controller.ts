@@ -70,9 +70,10 @@ export const login = async (req:Request,res:Response) => {
             })
         } 
 
-        generateTokenAndSetCookie(user._id, res);
+        const token=generateTokenAndSetCookie(user._id, res);
 
         res.status(200).json({
+            token:token,
             _id : user._id,
             fullName: user.fullName,
             username: user.username,
