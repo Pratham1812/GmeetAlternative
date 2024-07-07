@@ -13,6 +13,8 @@ const generateTokenAndSetCookie = (userId:any, res:Response) =>{
        sameSite: true, //prevents CSRF attacks 
        secure: process.env.NODE_ENV !== 'development',
    })
+
+   return token;
 }
 
 export default generateTokenAndSetCookie;
