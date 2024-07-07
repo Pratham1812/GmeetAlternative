@@ -1,5 +1,6 @@
 import http from 'http';
 import {Server,Socket} from 'socket.io';
+import jwt,{JwtPayload,VerifyErrors, VerifyOptions} from 'jsonwebtoken';
 
 class SignalingServer{
     private io: Server;
@@ -15,6 +16,25 @@ class SignalingServer{
     }
 
     private initializeSocketEvents(){
+        interface DecodedToken extends JwtPayload {
+            username: string;
+          }
+        const verifyOptions:VerifyOptions={};
+        this.io.use((socket:Socket,next:(error?:Error)=>void)=>{
+            const token=socket.handshake.auth.token;
+            if(token){
+                jwt.verify(token,process.env.JWT_SECRET,verifyOptions,(error,decoded)=>{
+                    if(error){
+                        return next(new Error('Authentication Error'));
+                    }
+                    socket.data.user=decoded;
+                    next();
+                });
+            }else{
+                next(new Error('Authentication Error'));
+            }
+        });
+
         this.io.on('connection',(socket:Socket)=>{
             console.log("A user connected", socket.id);
         
