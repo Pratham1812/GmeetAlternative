@@ -1,7 +1,7 @@
 "use client"
 import Navbar from '@/components/Navbar'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 const Page = () => {
@@ -10,10 +10,12 @@ const Page = () => {
   const [roomName, setRoomName] = useState('')
   const accessToken = localStorage.getItem('user')
 
-      if (!accessToken) {
-        router.push('/auth/signup')
-        return null
-      }
+  useEffect(()=>{
+    if (!accessToken) {
+      router.push('/auth/signin');
+    }
+  },[accessToken, router])
+      
 
   const joinRoom = () => {
     const targetRoomName=roomName || Math.random().toString(36).slice(2);
