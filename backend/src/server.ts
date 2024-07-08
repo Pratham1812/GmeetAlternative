@@ -30,6 +30,28 @@ app.get('/',(req,res) => {
     res.send("Hello World")
 })
 
+app.post('/summarize', async (req, res) => {
+    const { transcript } = req.body;
+  
+    try {
+      const response = await fetch('https://api-inference.huggingface.co/models/facebook/bart-large-cnn', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.HUGGING_FACE_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          inputs: transcript,
+        }),
+      });
+  
+      const summary = await response.json();
+      res.json(summary);
+    } catch (error:any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
 server.listen(PORT, () => {
     connectToDB();
     console.log(`server is running on port ${PORT}`)

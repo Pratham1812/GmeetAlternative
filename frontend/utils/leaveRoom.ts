@@ -27,7 +27,7 @@ const leaveRoom = (
     rtcConnectionRef.current.close();
     rtcConnectionRef.current = null;
   }
-  router.push('/dashboard');
+  // router.push('/dashboard');
 };
 
 export default leaveRoom;
