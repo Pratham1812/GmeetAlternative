@@ -12,14 +12,9 @@ const endMeeting = async (
     peerVideoRef: React.MutableRefObject<HTMLVideoElement | null>,
     rtcConnectionRef: React.MutableRefObject<RTCPeerConnection | null>,
     socket: Socket| null,
-    summary:React.MutableRefObject<string|null>
 ) => {
     stopAudioRecording(mediaRecorder);
-    const transcript = await transcribe(audioBlob);
-    const result= await summarize(transcript?transcript:'');
-    if(result!=undefined){
-        summary.current=result;
-    }
+    
     leaveRoom(roomName, userVideoRef, peerVideoRef, rtcConnectionRef, socket);
   };
 
