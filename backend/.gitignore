@@ -3,4 +3,5 @@
 /dist
 .env
 **/node_modules
-/uploads
+*.flac
+*.wav
