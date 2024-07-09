@@ -43,8 +43,8 @@ const Room = () => {
   useEffect(() => {
     if (socket != null) {
       socket.emit('join', roomName);
-      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef,mediaRecorder,audioChunks,audioBlob));
-      socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName,mediaRecorder,audioChunks,audioBlob));
+      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef,mediaRecorder,audioChunks,audioBlob,summary));
+      socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName,mediaRecorder,audioChunks,audioBlob,summary));
       socket.on("ready", () => initiateCall(hostRef, rtcConnectionRef, userStreamRef, socket, roomName, () =>
         createPeerConnection(
           (event) => handleICECandidateEvent(event, socket, roomName),
@@ -90,7 +90,7 @@ const Room = () => {
       <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={() => toggleMic(micActive, setMicActive, userStreamRef)} type="button">
         {micActive ? 'Mute Mic' : 'UnMute Mic'}
       </button>
-      <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={()=>endMeeting(mediaRecorder,audioBlob,roomName, userVideoRef, peerVideoRef, rtcConnectionRef, socket,summary)} type="button">
+      <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={()=>endMeeting(mediaRecorder,audioBlob,roomName, userVideoRef, peerVideoRef, rtcConnectionRef, socket)} type="button">
         Leave
       </button>
       <button className='mx-4 bg-red-400 text-black rounded-lg p-3' onClick={() => toggleCamera(cameraActive, setCameraActive, userStreamRef)} type="button">
