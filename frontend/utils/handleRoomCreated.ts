@@ -7,7 +7,7 @@ const handleRoomCreated=(
     userVideoRef:React.RefObject<HTMLVideoElement|null>,
     mediaRecorder:React.MutableRefObject<MediaRecorder|null>,
     audioChunks:React.MutableRefObject<Blob[]|null>,
-    audioUrl:React.MutableRefObject<String|null>
+    audioBlob:React.MutableRefObject<Blob|null>
 )=>{
     hostRef.current=true;
     navigator.mediaDevices.getUserMedia({
@@ -16,7 +16,7 @@ const handleRoomCreated=(
             width:500,height:500
         },
     }).then((stream)=>{
-        startAudioRecording(stream,mediaRecorder,audioChunks,audioUrl);
+        startAudioRecording(stream,mediaRecorder,audioChunks,audioBlob);
         userStreamRef.current=stream;
         if(userVideoRef.current!=null){
             userVideoRef.current.srcObject=stream;
