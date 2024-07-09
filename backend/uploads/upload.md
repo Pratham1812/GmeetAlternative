@@ -1,0 +1,2 @@
+This is the uploads folder. It stores the .flac and .wav audio files created for the purpose to audio to text-summary conversion.
+Do not remove this folder. It is required for files upload for the purpose of transcription api.
