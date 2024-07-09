@@ -16,6 +16,8 @@ import handleTrackEvent from '@/utils/handleTrackEvent';
 import toggleMic from '@/utils/toggleMic';
 import toggleCamera from '@/utils/toggleCamera';
 import handleScreenShare from '@/utils/handleScreenShare';
+import stopAudioRecording from '@/utils/stopAudioRecording';
+import endMeeting from '@/utils/endMeeting';
 
 
 const Room = () => {
@@ -25,6 +27,9 @@ const Room = () => {
   const socket = useSocket(url);
   const router=useRouter();
   const param = useSearchParams();
+  const mediaRecorder=useRef<MediaRecorder|null>(null);
+  const audioChunks=useRef<Blob[]|null>(null);
+  const audioBlob=useRef<Blob|null>(null);
   const userVideoRef = useRef<HTMLVideoElement | null>(null);
   const peerVideoRef = useRef<HTMLVideoElement | null>(null);
   const screenShareRef = useRef<HTMLVideoElement>(null);
@@ -33,12 +38,13 @@ const Room = () => {
   const hostRef = useRef<boolean>(false);
   const roomNameParam:string|null=param.get('roomName');
   const roomName:string=roomNameParam?roomNameParam:"";
+  const summary=useRef<string|null>(null);
 
   useEffect(() => {
     if (socket != null) {
       socket.emit('join', roomName);
-      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef));
-      socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName));
+      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef,mediaRecorder,audioChunks,audioBlob,summary));
+      socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName,mediaRecorder,audioChunks,audioBlob,summary));
       socket.on("ready", () => initiateCall(hostRef, rtcConnectionRef, userStreamRef, socket, roomName, () =>
         createPeerConnection(
           (event) => handleICECandidateEvent(event, socket, roomName),
@@ -64,9 +70,17 @@ const Room = () => {
   }, [roomName, socket]);
 
   
+  
 
   return (
     <div>
+      {summary.current ? <>
+        <div className='flex flex-col p-10 '>
+          <h3 className='font-bold text-3xl mb-4'>Meeting Summary:</h3>
+          <p className='text-lg'>{summary.current}</p>
+          <button className=' mt-4 bg-red-400 text-black rounded-lg p-3 w-40' onClick={() => {router.push("/dashboard")}}>Go to Dashboard</button>
+        </div>
+      </> : <>
       <div className='flex gap-5 flex-wrap m-4'>
       <video autoPlay ref={screenShareRef} style={{ display: 'none' }} />
 
@@ -76,7 +90,7 @@ const Room = () => {
       <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={() => toggleMic(micActive, setMicActive, userStreamRef)} type="button">
         {micActive ? 'Mute Mic' : 'UnMute Mic'}
       </button>
-      <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={() => leaveRoom(roomName, userVideoRef, peerVideoRef, rtcConnectionRef, socket, router)} type="button">
+      <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={()=>endMeeting(mediaRecorder,audioBlob,roomName, userVideoRef, peerVideoRef, rtcConnectionRef, socket)} type="button">
         Leave
       </button>
       <button className='mx-4 bg-red-400 text-black rounded-lg p-3' onClick={() => toggleCamera(cameraActive, setCameraActive, userStreamRef)} type="button">
@@ -85,6 +99,9 @@ const Room = () => {
       <button className='mx-4 bg-red-400 text-black rounded-lg p-3' onClick={() => handleScreenShare(rtcConnectionRef, userStreamRef, socket, roomName, screenShareRef)} type="button">
         Share Screen
       </button>
+      </>}
+      
+      
     </div>
   );
 }

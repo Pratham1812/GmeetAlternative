@@ -10,7 +10,6 @@ const leaveRoom = (
   peerVideoRef: MutableRefObject<HTMLVideoElement | null>,
   rtcConnectionRef: MutableRefObject<RTCPeerConnection | null>,
   socketRef: Socket| null,
-  router: any
 ) => {
   socketRef?.emit('leave', roomName);
 
@@ -27,7 +26,7 @@ const leaveRoom = (
     rtcConnectionRef.current.close();
     rtcConnectionRef.current = null;
   }
-  router.push('/dashboard');
+  // router.push('/dashboard');
 };
 
 export default leaveRoom;
