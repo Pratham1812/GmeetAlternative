@@ -6,7 +6,7 @@ const summarize=async(
     try{
         if(transcript){
             const response = await axios.post('http://localhost:4000/summarize',{
-                body:transcript
+                "transcript":transcript
             },
         {
             headers:{
