@@ -74,7 +74,7 @@ const Room = () => {
 
   return (
     <div>
-      {summary ? <>
+      {summary.current ? <>
         <div className='flex flex-col p-10 '>
           <h3 className='font-bold text-3xl mb-4'>Meeting Summary:</h3>
           <p className='text-lg'>{summary.current}</p>
