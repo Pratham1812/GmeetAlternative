@@ -5,12 +5,17 @@ import {io,Socket} from 'socket.io-client';
 const useSocket=(url:string):Socket|null=>{
     const socketCreated=useRef(false);
     const [socket,setSocket]=useState<Socket|null>(null);
-    const user=localStorage.getItem("user");
     const router=useRouter();
-    if(!user){
-        router.push('/auth/signin');
+    var token:string;
+    if(typeof window!=='undefined'){
+        const user=localStorage.getItem("user");
+        if(!user){
+            router.push('/auth/signin');
+        }
+        token=JSON.parse(user?user:'').token;
+    }else{
+        token='';
     }
-    const token=JSON.parse(user?user:'').token;
     useEffect(()=>{
         if(!socketCreated.current){
             const socketInitializer =async()=>{
@@ -43,7 +48,7 @@ const useSocket=(url:string):Socket|null=>{
                 console.log(error,"failed");
             }
         }
-    },[url])
+    },[token, url])
 
     return socket;
 }
