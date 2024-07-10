@@ -8,7 +8,8 @@ const handleRoomCreated=(
     mediaRecorder:React.MutableRefObject<MediaRecorder|null>,
     audioChunks:React.MutableRefObject<Blob[]|null>,
     audioBlob:React.MutableRefObject<Blob|null>,
-    summary:React.MutableRefObject<string|null>
+    summary:string|null,
+    setSummary:(summary:string|null)=>void
 
 )=>{
     hostRef.current=true;
@@ -18,7 +19,7 @@ const handleRoomCreated=(
             width:500,height:500
         },
     }).then((stream)=>{
-        startAudioRecording(stream,mediaRecorder,audioChunks,audioBlob,summary);
+        startAudioRecording(stream,mediaRecorder,audioChunks,audioBlob,summary,setSummary);
         userStreamRef.current=stream;
         if(userVideoRef.current!=null){
             userVideoRef.current.srcObject=stream;

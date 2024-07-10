@@ -38,13 +38,13 @@ const Room = () => {
   const hostRef = useRef<boolean>(false);
   const roomNameParam:string|null=param.get('roomName');
   const roomName:string=roomNameParam?roomNameParam:"";
-  const summary=useRef<string|null>(null);
+  const [summary,setSummary]:[string|null,(summary:string|null)=>void]=useState<string|null>(null);
 
   useEffect(() => {
     if (socket != null) {
       socket.emit('join', roomName);
-      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef,mediaRecorder,audioChunks,audioBlob,summary));
-      socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName,mediaRecorder,audioChunks,audioBlob,summary));
+      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef,mediaRecorder,audioChunks,audioBlob,summary,setSummary));
+      socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName,mediaRecorder,audioChunks,audioBlob,summary,setSummary));
       socket.on("ready", () => initiateCall(hostRef, rtcConnectionRef, userStreamRef, socket, roomName, () =>
         createPeerConnection(
           (event) => handleICECandidateEvent(event, socket, roomName),
@@ -67,17 +67,17 @@ const Room = () => {
     } else {
       console.log("Failed to fetch Socket");
     }
-  }, [roomName, socket]);
+  }, [roomName, socket, summary]);
 
   
   
 
   return (
     <div>
-      {summary.current ? <>
+      {summary ? <>
         <div className='flex flex-col p-10 '>
           <h3 className='font-bold text-3xl mb-4'>Meeting Summary:</h3>
-          <p className='text-lg'>{summary.current}</p>
+          <p className='text-lg'>{summary}</p>
           <button className=' mt-4 bg-red-400 text-black rounded-lg p-3 w-40' onClick={() => {router.push("/dashboard")}}>Go to Dashboard</button>
         </div>
       </> : <>

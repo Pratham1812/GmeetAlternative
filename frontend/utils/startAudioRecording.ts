@@ -7,7 +7,8 @@ const startAudioRecording=(
     mediaRecorder:React.MutableRefObject<MediaRecorder|null>,
     audioChunks:React.MutableRefObject<Blob[]|null>,
     audioBlob:React.MutableRefObject<Blob|null>,
-    summary:React.MutableRefObject<string|null>
+    summary:string|null,
+    setSummary:(summary:string|null)=>void
 
 )=>{
     mediaRecorder.current=new MediaRecorder(stream);
@@ -34,7 +35,7 @@ const startAudioRecording=(
             console.log(transcript);
             const result= await summarize(transcript?transcript:'');
             if(result!=undefined){
-            summary.current=result;
+            setSummary(result);
     }
         }else{
             console.log("Failed to fetch audioChunks array");
