@@ -18,6 +18,17 @@ GMeet Alternative is an online meeting platform created during a hackathon. The 
 - **Realtime Video Conferencing**: Seamless video communication with low latency.
 - **Screen Sharing**: Share screens during meetings.
 
+## Screenshots
+### Homepage
+![Homepage](frontend/public/homepage.png)
+
+### Meeting Interface
+![Meeting Interface](frontend/public/meeting.png)
+
+### WebRTC Implementation
+![RTCPeerConnection](frontend/public/rtcpeerconnection.png)
+
+
 ## Tech Stack
 - **Frontend**: Next.js, Tailwind CSS
 - **Backend**: Node.js, Express
