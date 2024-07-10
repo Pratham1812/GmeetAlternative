@@ -8,7 +8,8 @@ const startAudioRecording=(
     audioChunks:React.MutableRefObject<Blob[]|null>,
     audioBlob:React.MutableRefObject<Blob|null>,
     summary:string|null,
-    setSummary:(summary:string|null)=>void
+    setSummary:(summary:string|null)=>void,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
 
 )=>{
     mediaRecorder.current=new MediaRecorder(stream);
@@ -29,6 +30,7 @@ const startAudioRecording=(
     };
     mediaRecorder.current.onstop=async ()=>{
         if(audioChunks.current){
+            setLoading(true)
             audioBlob.current=new Blob(audioChunks.current,{type:'audio/flac'});
             console.log(audioBlob.current);
             const transcript = await transcribe(audioBlob);
@@ -36,6 +38,7 @@ const startAudioRecording=(
             const result= await summarize(transcript?transcript:'');
             if(result!=undefined){
             setSummary(result);
+            setLoading(false);
     }
         }else{
             console.log("Failed to fetch audioChunks array");

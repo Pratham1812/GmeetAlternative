@@ -39,11 +39,12 @@ const Room = () => {
   const roomNameParam:string|null=param.get('roomName');
   const roomName:string=roomNameParam?roomNameParam:"";
   const [summary,setSummary]:[string|null,(summary:string|null)=>void]=useState<string|null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (socket != null) {
       socket.emit('join', roomName);
-      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef,mediaRecorder,audioChunks,audioBlob,summary,setSummary));
+      socket.on("created", () => handleRoomCreated(hostRef,userStreamRef, userVideoRef,mediaRecorder,audioChunks,audioBlob,summary,setSummary,setLoading));
       socket.on("joined", () => handleRoomJoined(userStreamRef, userVideoRef, socket, roomName,mediaRecorder,audioChunks,audioBlob,summary,setSummary));
       socket.on("ready", () => initiateCall(hostRef, rtcConnectionRef, userStreamRef, socket, roomName, () =>
         createPeerConnection(
@@ -90,7 +91,7 @@ const Room = () => {
       <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={() => toggleMic(micActive, setMicActive, userStreamRef)} type="button">
         {micActive ? 'Mute Mic' : 'UnMute Mic'}
       </button>
-      <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={()=>endMeeting(mediaRecorder,audioBlob,roomName, userVideoRef, peerVideoRef, rtcConnectionRef, socket)} type="button">
+      <button className='mx-4  bg-red-400 text-black rounded-lg p-3' onClick={()=>endMeeting(mediaRecorder,audioBlob,roomName, userVideoRef, peerVideoRef, rtcConnectionRef, socket)} type="button" disabled={loading}>
         Leave
       </button>
       <button className='mx-4 bg-red-400 text-black rounded-lg p-3' onClick={() => toggleCamera(cameraActive, setCameraActive, userStreamRef)} type="button">
@@ -99,6 +100,12 @@ const Room = () => {
       <button className='mx-4 bg-red-400 text-black rounded-lg p-3' onClick={() => handleScreenShare(rtcConnectionRef, userStreamRef, socket, roomName, screenShareRef)} type="button">
         Share Screen
       </button>
+      {loading && (
+                <div className="absolute inset-0 flex items-center flex-col justify-center bg-gray-800 bg-opacity-50">
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500"></div>
+                    <div className='mt-4 text-black'>Generating summary for the meet ....</div>
+                </div>
+            )}
       </>}
       
       
